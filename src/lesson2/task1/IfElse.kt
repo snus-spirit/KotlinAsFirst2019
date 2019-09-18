@@ -156,7 +156,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         if (sqr(c) < sqr(b) + sqr(a)) return 0
         if (sqr(c) == sqr(b) + sqr(a)) return 1
     }
-    return 666 // Ошибка об обязательном return в теле функции, в любом случае до этого return'а не дойдет
+    return -1 
 }
 /**
  * Средняя
