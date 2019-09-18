@@ -66,10 +66,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     if ((age in 5..19) || (age in 105..119)) return "$age лет"
-    when (age % 10) {
-        1 -> return "$age год"
-        2, 3, 4 -> return "$age года"
-        else -> return "$age лет"
+    return when (age % 10) {
+        1 -> "$age год"
+        2, 3, 4 -> "$age года"
+        else -> "$age лет"
     }
 }
 
@@ -85,10 +85,10 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val S = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    if (t1 * v1 >= S) return S / v1
-    else if (t2 * v2 >= S - t1 * v1) return t1 + (S - t1 * v1) / v2
-    else return t1 + t2 + (S - t1 * v1 - t2 * v2) / v3
+    val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    return if (t1 * v1 >= s) s / v1
+    else if (t2 * v2 >= s - t1 * v1) return t1 + (s - t1 * v1) / v2
+    else return t1 + t2 + (s - t1 * v1 - t2 * v2) / v3
 }
 
 /**
@@ -131,6 +131,7 @@ fun rookOrBishopThreatens(
     if ((kingX + kingY == bishopX + bishopY) || (kingX - kingY == bishopX - bishopY)) a += 2
     return a
 }
+
 /**
  * Простая
  *
@@ -141,23 +142,25 @@ fun rookOrBishopThreatens(
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if ((a > b + c) || (b > a + c) || (c > a + b)) return -1
-    if (max(max(a, b), c) == a) {
+    if (maxOf(a, b, c) == a) {
         if (sqr(a) > sqr(b) + sqr(c)) return 2
-        if (sqr(a) < sqr(b) + sqr(c)) return 0
-        if (sqr(a) == sqr(b) + sqr(c)) return 1
+        else if (sqr(a) < sqr(b) + sqr(c)) return 0
+        else if (sqr(a) == sqr(b) + sqr(c)) return 1
     }
-    if (max(max(a, b), c) == b) {
+    if (maxOf(a, b, c) == b) {
         if (sqr(b) > sqr(a) + sqr(c)) return 2
         if (sqr(b) < sqr(a) + sqr(c)) return 0
         if (sqr(b) == sqr(a) + sqr(c)) return 1
     }
-    if (max(max(a, b), c) == c) {
+    if (maxOf(a, b, c) == c) {
         if (sqr(c) > sqr(b) + sqr(a)) return 2
         if (sqr(c) < sqr(b) + sqr(a)) return 0
         if (sqr(c) == sqr(b) + sqr(a)) return 1
     }
-    return 666 // Ошибка об обязательном return в теле функции, в любом случае до этого return'а не дойдет
+    return -1
+
 }
+
 /**
  * Средняя
  *
@@ -167,9 +170,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((a <= c) && (b <= d) && (b >= c)) return b - c
-    if ((a <= c) && (b >= d)) return d - c
-    if ((a >= c) && (b <= d)) return b - a
-    if ((a >= c) && (b >= d) && (a <= d)) return d - a
-    return -1
+    return if ((a <= c) && (b <= d) && (b >= c)) b - c
+    else if ((a <= c) && (b >= d)) d - c
+    else if ((a >= c) && (b <= d)) b - a
+    else if ((a >= c) && (b >= d) && (a <= d)) d - a
+    else -1
 }
