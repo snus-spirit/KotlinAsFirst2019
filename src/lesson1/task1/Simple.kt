@@ -10,7 +10,6 @@ import kotlin.math.*
  * Вычисление квадрата целого числа
  */
 fun sqr(x: Int) = x * x
-
 /**
  * Пример
  *
@@ -125,4 +124,5 @@ fun accountInThreeYears(initial: Int, percent: Int): Double =
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = ((number % 10) * 100 + ((number / 10) % 10) * 10 + ((number / 100) % 10))
+fun numberRevert(number: Int): Int =
+    ((number % 10) * 100 + ((number / 10) % 10) * 10 + ((number / 100) % 10))
