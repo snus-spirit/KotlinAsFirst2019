@@ -43,7 +43,7 @@ fun daysInMonth(month: Int, year: Int): Int {
     if ((month == 2) && ((year % 100 != 0) || (year % 400 == 0)) && ((year % 4 == 0) || (year % 400 == 0))) return 29
     return when (month) {
         1, 3, 5, 7, 8, 10, 12 -> 31
-        2 -> return 28
+        2 -> 28
         else -> 30
     }
 }
@@ -70,4 +70,5 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-    a * b <= r * s || a * c <= r * s || c * b <= r * s
+    (max(a, b) <= max(r, s)) && (min(a, b) <= min(r, s)) || (max(a, c) <= max(r, s)) && (min(a, c) <= min(r, s))
+            || (max(c, b) <= max(r, s)) && (min(c, b) <= min(r, s))
