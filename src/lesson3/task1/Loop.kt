@@ -71,7 +71,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var num = n
+    var num = abs(n)
     var count = 0
     do {
         num /= 10
@@ -145,6 +145,13 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+//for (i in 2..min(m, n)) {
+//   if (isPrime(i)) {
+//     if (m % i == 0 && n % i == 0) return false
+//}
+//}
+// return true
+//}
 
 /**
  * Простая
@@ -235,14 +242,14 @@ fun cos(x: Double, eps: Double): Double {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int {
+fun revert(n: Long): Long {
     var num = n
-    var result = 0.0
+    var result: Long = 0
     while (num > 0) {
         result = result * 10 + (num % 10)
         num /= 10
     }
-    return result.toInt()
+    return result
 }
 
 /**
@@ -254,7 +261,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = revert(n) == n
+fun isPalindrome(n: Long): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -296,7 +303,7 @@ fun squareSequenceDigit(n: Int): Int {
         if ((count + overFlow) > n) break
         if (count >= 15) {
             result = 0
-            overFlow = count
+            overFlow += count
             count = 0
 
         }
@@ -326,7 +333,7 @@ fun fibSequenceDigit(n: Int): Int {
         if ((count + overFlow) > n) break
         if (count >= 15) {
             result = 0
-            overFlow = count
+            overFlow += count
             count = 0
 
         }
