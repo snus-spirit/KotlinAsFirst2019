@@ -289,7 +289,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Сложная
  *
  * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144169196...
+ * 149162536496 481100121144169196...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  *
  * Использовать операции со строками в этой задаче запрещается.
@@ -298,21 +298,16 @@ fun squareSequenceDigit(n: Int): Int {
     var result: Long = 0
     var p = 1
     var count = 0
-    var overFlow = 0
 
     for (i in 1..n) {
         if (sqr(i) >= 10.0.pow(p)) p++
-        result = (result * 10.0.pow(p) + sqr(i)).toLong()
+        result = sqr(i).toLong()
         count += p
-        if ((count + overFlow) > n) break
-        if (count >= 10) {
-            result = 0
-            overFlow += count
-            count = 0
-
-        }
+        if (count >= n) break
     }
-    return (result / 10.0.pow(overFlow + count - n) % 10).toInt()
+    if (count == n) return (result % 10).toInt()
+    return (result / 10.0.pow(count - n) % 10).toInt()
+
 }
 
 /**
@@ -328,42 +323,14 @@ fun fibSequenceDigit(n: Int): Int {
     var result: Long = 11
     var p = 1
     var count = 2
-    var overFlow = 0
+
     if (n == 1 || n == 2) return 1
     for (i in 3..n) {
         if (fib(i) >= 10.0.pow(p)) p++
-        result = (result * 10.0.pow(p) + fib(i)).toLong()
+        result = fib(i).toLong()
         count += p
-        if ((count + overFlow) > n) break
-        if (count >= 11) {
-            result = 0
-            overFlow += count
-            count = 0
-
-        }
-
+        if (count >= n) break
     }
-    return (result / 10.0.pow(overFlow + count - n) % 10).toInt()
+    if (count == n) return (result % 10).toInt()
+    return (result / 10.0.pow(count - n) % 10).toInt()
 }
-
-/**fun square13(n: Int): Int {
-var counter = 0
-var currentRes = 0
-var currentPow = 1
-
-while (counter < n) {
-currentRes = sqr(currentPow)
-counter += digitNumber(currentRes)
-currentPow++
-}
-
-return getSequenceRes(n, counter, currentRes)
-}
-fun getSequenceRes(n: Int, counter: Int, currentRes: Int): Int {
-val power10 = 10.0.pow(counter - n).toInt()
-
-return if (counter == n) {
-currentRes % 10
-} else (currentRes / power10) % 10
-}
- **/
