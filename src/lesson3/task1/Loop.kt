@@ -242,9 +242,9 @@ fun cos(x: Double, eps: Double): Double {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Long): Long {
+fun revert(n: Int): Int {
     var num = n
-    var result: Long = 0
+    var result = 0
     while (num > 0) {
         result = result * 10 + (num % 10)
         num /= 10
@@ -261,7 +261,11 @@ fun revert(n: Long): Long {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Long): Boolean = revert(n) == n
+fun isPalindrome(n: Int): Boolean {
+    return if (n >= Int.MAX_VALUE) false
+    else return revert(n) == n
+
+}
 
 /**
  * Средняя
