@@ -305,7 +305,7 @@ fun squareSequenceDigit(n: Int): Int {
         result = (result * 10.0.pow(p) + sqr(i)).toLong()
         count += p
         if ((count + overFlow) > n) break
-        if (count >= 15) {
+        if (count >= 10) {
             result = 0
             overFlow += count
             count = 0
@@ -335,7 +335,7 @@ fun fibSequenceDigit(n: Int): Int {
         result = (result * 10.0.pow(p) + fib(i)).toLong()
         count += p
         if ((count + overFlow) > n) break
-        if (count >= 15) {
+        if (count >= 11) {
             result = 0
             overFlow += count
             count = 0
@@ -345,3 +345,25 @@ fun fibSequenceDigit(n: Int): Int {
     }
     return (result / 10.0.pow(overFlow + count - n) % 10).toInt()
 }
+
+/**fun square13(n: Int): Int {
+var counter = 0
+var currentRes = 0
+var currentPow = 1
+
+while (counter < n) {
+currentRes = sqr(currentPow)
+counter += digitNumber(currentRes)
+currentPow++
+}
+
+return getSequenceRes(n, counter, currentRes)
+}
+fun getSequenceRes(n: Int, counter: Int, currentRes: Int): Int {
+val power10 = 10.0.pow(counter - n).toInt()
+
+return if (counter == n) {
+currentRes % 10
+} else (currentRes / power10) % 10
+}
+ **/
