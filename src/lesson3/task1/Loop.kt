@@ -198,19 +198,7 @@ fun collatzSteps(x: Int): Int {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double {
-    var x1 = x
-    var p = 1
-    var result = 0.0
-    var sign = 1
-    if (x % (2.0 * PI) != 0.0) x1 = x % (2 * PI)
-    while (x1.pow(p) / factorial(p) >= eps) {
-        result += sign * x1.pow(p) / factorial(p)
-        p += 2
-        sign *= -1
-    }
-    return result
-}
+fun sin(x: Double, eps: Double): Double = TODO()
 
 /**
  * Средняя
@@ -221,19 +209,7 @@ fun sin(x: Double, eps: Double): Double {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double {
-    var x1 = x
-    var p = 0
-    var result = 0.0
-    var sign = 1
-    if (x % (2.0 * PI) != 0.0) x1 = x % (2 * PI)
-    while (x1.pow(p) / factorial(p) >= eps) {
-        result += sign * x1.pow(p) / factorial(p)
-        p += 2
-        sign *= -1
-    }
-    return result
-}
+fun cos(x: Double, eps: Double): Double = TODO()
 
 /**
  * Средняя
@@ -261,11 +237,8 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean {
-    return if (n >= Int.MAX_VALUE) false
-    else return revert(n) == n
+fun isPalindrome(n: Int): Boolean = (n <= Int.MAX_VALUE) && (revert(n) == n)
 
-}
 
 /**
  * Средняя
@@ -295,17 +268,17 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var result: Long = 0
+    var result = 0
     var p = 1
     var count = 0
 
     for (i in 1..n) {
         if (sqr(i) >= 10.0.pow(p)) p++
-        result = sqr(i).toLong()
+        result = sqr(i)
         count += p
         if (count >= n) break
     }
-    if (count == n) return (result % 10).toInt()
+    if (count == n) return (result % 10)
     return (result / 10.0.pow(count - n) % 10).toInt()
 
 }
@@ -320,17 +293,17 @@ fun squareSequenceDigit(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var result: Long = 11
+    var result = 11
     var p = 1
     var count = 2
 
     if (n == 1 || n == 2) return 1
     for (i in 3..n) {
         if (fib(i) >= 10.0.pow(p)) p++
-        result = fib(i).toLong()
+        result = fib(i)
         count += p
         if (count >= n) break
     }
-    if (count == n) return (result % 10).toInt()
+    if (count == n) return (result % 10)
     return (result / 10.0.pow(count - n) % 10).toInt()
 }
