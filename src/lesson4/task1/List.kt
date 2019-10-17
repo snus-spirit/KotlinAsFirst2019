@@ -164,7 +164,6 @@ fun times(a: List<Int>, b: List<Int>): Int {
  */
 fun polynom(p: List<Int>, x: Int): Int {
     var sum = 0.0
-
     return if (p.isEmpty()) 0
     else {
         for (i in p.indices) sum += p[i] * x.toDouble().pow(i)
@@ -185,8 +184,7 @@ fun polynom(p: List<Int>, x: Int): Int {
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
     return if (list.isEmpty()) list
     else {
-        val a = list.toList() //Почеиу так работает, а "a:List<Int> = list" - нет. Почему этот список изменяется
-        // вслед за list
+        val a = list.toList()
         for (i in 1 until list.size) list[i] += a.subList(0, i).sum()
         return list
     }
@@ -313,84 +311,7 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String {
-    var result: String = ""
-    val rom = listOf<String>("I", "V", "X", "L", "C", "D", "M")
-    var num = n
-    var count = n
-    for (i in (n.toString().length - 1) downTo 0) {
-        if ((count / 10.0.pow(i)).toInt() < 4) {
-            when (i) {
-                3 -> while (num >= 1000) {
-                    result += rom[6]; num -= 1000
-                }
-                2 -> while (num >= 100) {
-                    result += rom[4]; num -= 100
-                }
-                1 -> while (num >= 10) {
-                    result += rom[2]; num -= 10
-                }
-                0 -> while (num >= 1) {
-                    result += rom[0]; num -= 1
-                }
-            }
-            count %= (10.0.pow(count.toString().length - 1)).toInt()
-            continue
-        }
-        if ((count / 10.0.pow(i)).toInt() == 4) {
-            when (i) {
-                2 -> {
-                    result += rom[4] + rom[5]; num -= 400
-                }
-                1 -> {
-                    result += rom[2] + rom[3]; num -= 40
-                }
-                0 -> {
-                    result += rom[0] + rom[1]; num -= 4
-                }
-            }
-            count %= 10.0.pow(count.toString().length - 1).toInt()
-            continue
-        }
-        if ((count / 10.0.pow(i)).toInt() == 9) {
-            when (i) {
-                2 -> {
-                    result += rom[4] + rom[6]; num -= 900
-                }
-                1 -> {
-                    result += rom[2] + rom[4]; num -= 90
-                }
-                0 -> {
-                    result += rom[0] + rom[2]; num -= 9
-                }
-            }
-            count %= 10.0.pow(count.toString().length - 1).toInt()
-            continue
-        }
-        if ((count / 10.0.pow(i).toInt() > 4) && (count / 10.0.pow(i).toInt() < 9)) {
-            when (i) {
-                2 -> {
-                    result += rom[5];num -= 500; while (num >= 100) {
-                        result += rom[4]; num -= 100
-                    }
-                }
-                1 -> {
-                    result += rom[3];num -= 50; while (num >= 10) {
-                        result += rom[2]; num -= 10
-                    }
-                }
-                0 -> {
-                    result += rom[1];num -= 5; while (num >= 1) {
-                        result += rom[0]; num -= 1
-                    }
-                }
-            }
-            count %= 10.0.pow(count.toString().length - 1).toInt()
-            continue
-        }
-    }
-    return result
-}
+fun roman(n: Int): String = TODO()
 
 /**
  * Очень сложная
@@ -413,7 +334,7 @@ fun russian(n: Int): String {
         "пятьлесят",
         "шестьдесят",
         "семьдесят",
-        "восемдесят",
+        "восемьдесят",
         "девяносто"
     )
     val from100To900 = listOf<String>(
