@@ -125,6 +125,7 @@ fun abs(v: List<Double>): Double = sqrt((v.map { it * it }).sum())
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double = if (list.isNotEmpty()) (list.sum() / list.size) else 0.0
+
 /**
  * Средняя
  *
@@ -182,6 +183,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
         return list
     }
 }
+
 /**
  * Средняя
  *
@@ -235,6 +237,7 @@ fun convert(n: Int, base: Int): List<Int> {
     list.add(0, num)
     return list
 }
+
 /**
  * Сложная
  *
@@ -257,6 +260,7 @@ fun convertToString(n: Int, base: Int): String {
     println('a'.toInt())
     return result.joinToString(separator = "")
 }
+
 /**
  * Средняя
  *
@@ -289,13 +293,13 @@ fun decimalFromString(str: String, base: Int): Int {
     val characters = 'a'.toInt() - 10
     val numbers = '0'.toInt()
     for (i in str.indices) {
-        if ((str[str.length - 1 - i]).toInt() - numbers > 9)
-            result += ((str[str.length - 1 - i].toInt() - characters) * base.toDouble().pow(i)).toInt()
-        else result += ((str[str.length - 1 - i].toInt() - numbers) * base.toDouble().pow(i)).toInt()
+        result += if ((str[str.length - 1 - i]).toInt() - numbers > 9)
+            ((str[str.length - 1 - i].toInt() - characters) * base.toDouble().pow(i)).toInt()
+        else ((str[str.length - 1 - i].toInt() - numbers) * base.toDouble().pow(i)).toInt()
     }
-    println(1978 % 1000)
     return result
 }
+
 /**
  * Сложная
  *
@@ -315,12 +319,12 @@ fun roman(n: Int): String = TODO()
  * 987 654 "Девятьсот восемьдесят семь тысяч шестьсот пятьдесят четыре"
  */
 fun russian(n: Int): String {
-    val from1To9 = listOf<String>("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val from10To19 = listOf<String>(
+    val from1To9 = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val from10To19 = listOf(
         "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать",
         "семнадцать", "восемнадцать", "девятнадцать"
     )
-    val from20To90 = listOf<String>(
+    val from20To90 = listOf(
         "двадцать",
         "тридцать",
         "сорок",
@@ -330,7 +334,7 @@ fun russian(n: Int): String {
         "восемьдесят",
         "девяносто"
     )
-    val from100To900 = listOf<String>(
+    val from100To900 = listOf(
         "сто",
         "двести",
         "триста",
@@ -342,13 +346,12 @@ fun russian(n: Int): String {
         "девятьсот"
     )
     val from1000To9000 =
-        listOf<String>("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "тысячи")
-    val endOfThousands = listOf<String>("тысяча", "тысячи", "тысяч")
+        listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "тысячи")
+    val endOfThousands = listOf("тысяча", "тысячи", "тысяч")
     var thousands = n / 1000
     var hundreds = n % 1000
     val result = mutableListOf<String>()
-    if (n == 0) result.add("ноль")
-    else if (thousands != 0) {
+    if (thousands != 0) {
         if (thousands > 99) {
             result.add(from100To900[(thousands / 100) - 1]); thousands %= 100
         }
