@@ -176,13 +176,10 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    return if (list.isEmpty()) list
-    else {
-        val a = list.toList()
-        for (i in 1 until list.size) list[i] += a.subList(0, i).sum()
-        return list
-    }
+    for (i in 1 until list.size) list[i] = list[i] + list[i - 1]
+    return list
 }
+
 
 /**
  * Средняя
@@ -209,16 +206,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    val list = mutableListOf<Int>()
-    var num = n
-    while (num != 1) {
-        val mindiv = minDivisor(num)
-        list.add(mindiv)
-        num /= mindiv
-    }
-    return list.sorted().joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -231,10 +219,11 @@ fun convert(n: Int, base: Int): List<Int> {
     var num = n
     val list = mutableListOf<Int>()
     while (num >= base) {
-        list.add(0, num % base)
+        list.add(num % base)
         num /= base
     }
-    list.add(0, num)
+    list.add(num)
+    list.reverse()
     return list
 }
 
@@ -257,7 +246,6 @@ fun convertToString(n: Int, base: Int): String {
         if (list[i] < 10) result.add(list[i].toString())
         else result.add((characters + list[i]).toChar().toString())
     }
-    println('a'.toInt())
     return result.joinToString(separator = "")
 }
 
