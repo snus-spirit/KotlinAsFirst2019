@@ -212,7 +212,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var min = Double.MAX_VALUE
     var res: String? = null
-    for ((name, type) in stuff) if (type.first == kind && type.second < min) {
+    for ((name, type) in stuff) if (type.first == kind && type.second <= min) {
         min = type.second
         res = name
     }
@@ -228,7 +228,11 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.toSet() == word.toLowerCase().toSet()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    val set = word.toLowerCase().toSet()
+    return if (word.isEmpty() || chars.isEmpty()) false
+    else chars.joinToString().toLowerCase().toSet().intersect(set) == set
+}
 
 /**
  * Средняя
@@ -245,7 +249,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = chars.toSet() == wo
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val res = mutableMapOf<String, Int>()
     for (i in list) {
-        if (i !in res) res.put(i, 1)
+        if (i !in res) res[i] = 1
         else res[i] = res[i]!! + 1
     }
     return res.toList().filter { it.second > 1 }.toMap()
@@ -261,10 +265,13 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    val res = words.toMutableList()
-    for (i in words.indices) {
-        res.removeAt(0)
-        if (res.any { it.toSet() == words[i].toSet() }) return true
+    val res = mutableListOf<Set<Char>>()
+    for (i in words.indices) res.add(words[i].toLowerCase().toSet())
+    var a: Set<Char>
+    while (res.size > 1) {
+        a = res[res.size - 1]
+        res.removeAt(res.size - 1)
+        if (res.any { it == a }) return true
     }
     return false
 }
@@ -309,14 +316,15 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  * используя то, что вы узнали в данном уроке.
  *
  * Например:
- *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
- *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
+ *   findSumOfTwo(listOf(2, 4, 3), 6) -> Pair(0, 1)
+ *   findSumOfTwo(listOf(2, 4, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val res = mutableMapOf<Int, Int>()
-    for (i in list.indices) res.put(number - list[i], i)
-    for (i in list.indices) if (res.toList().any { it.first == list[i] && it.second != i })
-        return Pair(i, res[list[i]]!!)
+    for (i in list.indices) res[number - list[i]] = i // [4,0]; [2,1]; [3,2]
+    for ((i, value) in list.withIndex()) {
+        if (res[value] != null && res[value] != i) return Pair(i, res[list[i]]!!)
+    }
     return Pair(-1, -1)
 }
 
@@ -342,9 +350,9 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *   ) -> emptySet()
  */
 fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
-    var table = Array(treasures.size + 1) { Array((capacity + 1)) { 0 } }
-    var value = treasures.toList()
-    var res = mutableSetOf<String>()
+    val table = Array(treasures.size + 1) { Array((capacity + 1)) { 0 } }
+    val value = treasures.toList()
+    val res = mutableSetOf<String>()
     for (i in 1..treasures.size)
         for (w in 1..capacity)
             if (w < value[i - 1].second.first) table[i][w] = table[i - 1][w]
