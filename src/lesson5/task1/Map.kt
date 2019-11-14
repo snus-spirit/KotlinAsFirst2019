@@ -214,9 +214,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     var res: String? = null
     for ((name, type) in stuff)
         if (type.first == kind && type.second <= min) {
-        min = type.second
-        res = name
-    }
+            min = type.second
+            res = name
+        }
     return (res)
 }
 
@@ -271,7 +271,7 @@ fun hasAnagrams(words: List<String>): Boolean {
     while (res.size > 1) {
         a = res[res.size - 1]
         res.removeAt(res.size - 1)
-        if (res.any { it == a }) return true
+        if (res.contains(a)) return true
     }
     return false
 }
@@ -358,18 +358,11 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
             if (w < value[i - 1].second.first) table[i][w] = table[i - 1][w]
             else table[i][w] =
                 maxOf(table[i - 1][w], table[i - 1][w - value[i - 1].second.first] + value[i - 1].second.second)
-    /**var max = 0
-    for (i in 1..treasures.size)
-    if (table[i].max()!! > max) max = table[i].max()!!
-    println(max) */
-    var i = treasures.size
     var w = capacity
-    while (i != 0) {
-        if (table[i][w] == table[i - 1][w]) i--
-        else {
+    for (i in treasures.size downTo 1) {
+        if (table[i][w] != table[i - 1][w]) {
             res.add(value[i - 1].first)
             w -= value[i - 1].second.first
-            i--
         }
     }
     return res
