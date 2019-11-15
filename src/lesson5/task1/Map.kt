@@ -232,7 +232,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val set = word.toLowerCase().toSet()
     return chars.joinToString(separator = "").toLowerCase().toSet().intersect(set) == set
-}// Я извиняюсь, что так много раз ресабмитил. Просто я не мог нормально тесты списать
+}
 
 /**
  * Средняя
@@ -264,17 +264,8 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean {
-    val res = mutableListOf<Set<Char>>()
-    for (i in words.indices) res.add(words[i].toLowerCase().toSet())
-    var a: Set<Char>
-    while (res.size > 1) {
-        a = res[res.size - 1]
-        res.removeAt(res.size - 1)
-        if (res.contains(a)) return true
-    }
-    return false
-}
+fun hasAnagrams(words: List<String>): Boolean =
+    words.map { it.toLowerCase().toSet() }.toSet().size != words.size
 
 /**
  * Сложная
