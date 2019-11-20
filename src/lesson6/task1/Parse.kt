@@ -2,6 +2,11 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+import java.lang.Exception
+import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
+
 /**
  * Пример
  *
@@ -69,7 +74,20 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val list = listOf(
+        "января", "Февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    return try {
+        val value = str.split(" ")
+        if (list.indexOf(value[1]) == -1 || value.size != 3) return ""
+        if (value[0].toInt() > daysInMonth(list.indexOf(value[1]) + 1, value[2].toInt())) ""
+        else ("${twoDigitStr(value[0].toInt())}.${twoDigitStr(list.indexOf(value[1]) + 1)}.${value[2]}")
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -81,7 +99,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val list = listOf(
+        "января", "Февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря"
+    )
+    return try {
+        val value = digital.split(".")
+        if (value.size != 3) return ""
+        if (value[0].toInt() > daysInMonth(value[1].toInt(), value[2].toInt())) ""
+        else ("${value[0].toInt()} ${list[value[1].toInt() - 1]} ${value[2]}")
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -97,7 +128,14 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val set = setOf('1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '(', ')')
+    val value = phone.filter { it != ' ' }.filter { it != '-' }
+    return if (value.toSet().union(set) != set || value.contains('+') == (value.indexOf('+') != 0)
+        || "()" in value || value.contains(')') != value.contains('(')
+    ) ""
+    else value.filter { it != ')' && it != '(' }
+}
 
 /**
  * Средняя
@@ -109,7 +147,14 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val set = setOf('1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '%', '-')
+    val value = jumps.split(' ').filter { it != "-" && it != "%" }
+    val res = mutableListOf<Int>()
+    if (jumps.toSet().union(set) != set + ' ' || value.isEmpty()) return -1
+    for (number in value) res.add(number.toInt())
+    return res.max()!!
+}
 
 /**
  * Сложная
@@ -122,7 +167,13 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val value = jumps.split(" ")
+    var res = -1
+    for (i in 0..value.size - 2 step 2) if (value[i + 1].contains('+') && value[i].toInt() > res)
+        res = value[i].toInt()
+    return res
+}
 
 /**
  * Сложная
@@ -133,7 +184,24 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val numbers = expression.split(" ")
+    var res: Int
+    for (i in numbers.indices step 2)
+        if (numbers[i].contains('-') || numbers[i].contains('+'))
+            throw IllegalArgumentException()
+    try {
+        res = numbers[0].toInt()
+        for (i in 1 until numbers.size step 2) {
+            if (numbers[i] == "+") res += numbers[i + 1].toInt()
+            else if (numbers[i] == "-") res -= numbers[i + 1].toInt()
+            else throw IllegalArgumentException()
+        }
+    } catch (e: Exception) {
+        throw IllegalArgumentException()
+    }
+    return res
+}
 
 /**
  * Сложная
@@ -144,7 +212,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val value = str.split(" ")
+    var res = 0
+    for (i in 0..value.size - 2) {
+        if (value[i].toLowerCase() == value[i + 1].toLowerCase()) return res
+        res += value[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -157,7 +233,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val value = description.filter { it != ';' }.split(" ")
+    val map = mutableMapOf<Double, String>()
+    try {
+        var max = value[1].toDouble()
+        for (i in 0..value.size - 2 step 2) {
+            if (value[i + 1].toDouble() < 0) return ""
+            map[value[i + 1].toDouble()] = value[i]
+            max = maxOf(value[i + 1].toDouble(), max)
+        }
+        return map[max]!!
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -207,5 +297,61 @@ fun fromRoman(roman: String): Int = TODO()
  * IllegalArgumentException.
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
+ *	[ - если значение под датчиком равно 0, в качестве следующей команды следует воспринимать
+ *  	не следующую по порядку, а идущую за соответствующей следующей командой ']' (с учётом вложенности);
+ *	] - если значение под датчиком не равно 0, в качестве следующей команды следует воспринимать
+ *  	не следующую по порядку, а идущую за соответствующей предыдущей командой '[' (с учётом вложенности);
+ *      (комбинация [] имитирует цикл)
+ *      (0, 0, 0, 0, 0, 0, 0, 0, 0, 0)    "- <<<<< +[>+]"
+ *      Expected :[1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+ *      Actual   :[1, 1, 0, 0, 0, -1, 0, 0, 0, 0]
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    val value = IntArray(cells) { 0 }
+    var valuePosition = cells / 2
+    var commandPosition = 0
+    var count = 0
+    val legal = setOf('>', '<', '+', '-', ' ', ']', '[')
+    if (commands.toSet().union(legal) != legal || commands.filter { it == ']' }.length != commands.filter { it == '[' }.length)
+        throw IllegalArgumentException()
+    fun forwardBrace() {
+        if (value[valuePosition] == 0) {
+            count++
+            while (commandPosition + 1 < limit) {
+                commandPosition++
+                if (commands[commandPosition] == '[') count++
+                if (commands[commandPosition] == ']') count--
+                if (count == 0) break
+            }
+        }
+    }
+
+    fun reversedBrace() {
+        if (value[valuePosition] != 0) {
+            count--
+            for (l in commandPosition + 1..limit) {
+                commandPosition--
+                if (commands[commandPosition] == '[') count++
+                if (commands[commandPosition] == ']') count--
+                if (count == 0) break
+            }
+        }
+    }
+
+    var i = 0
+    while (i < limit && commandPosition < commands.length) {
+        when (commands[commandPosition]) {
+            '>' -> valuePosition++
+            '<' -> valuePosition--
+            '+' -> value[valuePosition]++
+            '-' -> value[valuePosition]--
+            '[' -> forwardBrace()
+            ']' -> reversedBrace()
+        }
+        commandPosition++
+        i++
+        if (valuePosition < 0 || valuePosition >= cells) throw IllegalStateException()
+    }
+    return value.toList()
+}
+
