@@ -76,13 +76,14 @@ fun main() {
  */
 fun dateStrToDigit(str: String): String {
     val list = listOf(
-        "января", "Февраля", "марта", "апреля", "мая", "июня",
+        "января", "февраля", "марта", "апреля", "мая", "июня",
         "июля", "августа", "сентября", "октября", "ноября", "декабря"
     )
     return try {
         val value = str.split(" ")
-        if (list.indexOf(value[1]) == -1 || value.size != 3) return ""
-        if (value[0].toInt() > daysInMonth(list.indexOf(value[1]) + 1, value[2].toInt())) ""
+        if (list.indexOf(value[1]) == -1 || value.size != 3 ||
+            value[0].toInt() > daysInMonth(list.indexOf(value[1]) + 1, value[2].toInt())
+        ) ""
         else ("${twoDigitStr(value[0].toInt())}.${twoDigitStr(list.indexOf(value[1]) + 1)}.${value[2]}")
     } catch (e: Exception) {
         return ""
@@ -101,7 +102,7 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val list = listOf(
-        "января", "Февраля", "марта", "апреля", "мая", "июня",
+        "января", "февраля", "марта", "апреля", "мая", "июня",
         "июля", "августа", "сентября", "октября", "ноября", "декабря"
     )
     return try {
@@ -312,8 +313,13 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     var commandPosition = 0
     var count = 0
     val set = setOf('>', '<', '+', '-', ' ', ']', '[')
-    if (commands.toSet().union(set) != set || commands.filter { it == ']' }.length != commands.filter { it == '[' }.length)
-        throw IllegalArgumentException()
+
+    for (i in commands.indices) {
+        if (commands[i] == '[') count++
+        if (commands[i] == ']') count--
+        if (count < 0) throw IllegalArgumentException()
+    }
+    if (commands.toSet().union(set) != set || count != 0) throw IllegalArgumentException()
 
     fun forwardBrace() {
         if (value[valuePosition] == 0) {
@@ -355,4 +361,3 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     }
     return value.toList()
 }
-
