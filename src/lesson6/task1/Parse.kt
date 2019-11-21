@@ -311,13 +311,14 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     var valuePosition = cells / 2
     var commandPosition = 0
     var count = 0
-    val legal = setOf('>', '<', '+', '-', ' ', ']', '[')
-    if (commands.toSet().union(legal) != legal || commands.filter { it == ']' }.length != commands.filter { it == '[' }.length)
+    val set = setOf('>', '<', '+', '-', ' ', ']', '[')
+    if (commands.toSet().union(set) != set || commands.filter { it == ']' }.length != commands.filter { it == '[' }.length)
         throw IllegalArgumentException()
+
     fun forwardBrace() {
         if (value[valuePosition] == 0) {
             count++
-            while (commandPosition + 1 < limit) {
+            for (i in commandPosition + 1..limit) {
                 commandPosition++
                 if (commands[commandPosition] == '[') count++
                 if (commands[commandPosition] == ']') count--
