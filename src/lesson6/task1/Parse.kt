@@ -312,6 +312,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     var valuePosition = cells / 2
     var commandPosition = 0
     var count = 0
+    var i = 0
     val set = setOf('>', '<', '+', '-', ' ', ']', '[')
 
     for (i in commands.indices) {
@@ -324,7 +325,8 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     fun forwardBrace() {
         if (value[valuePosition] == 0) {
             count++
-            for (i in commandPosition + 1..limit) {
+            while (commandPosition < commands.length) {
+                i++
                 commandPosition++
                 if (commands[commandPosition] == '[') count++
                 if (commands[commandPosition] == ']') count--
@@ -336,7 +338,7 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
     fun reversedBrace() {
         if (value[valuePosition] != 0) {
             count--
-            for (l in commandPosition + 1..limit) {
+            while (commandPosition > 0) {
                 commandPosition--
                 if (commands[commandPosition] == '[') count++
                 if (commands[commandPosition] == ']') count--
@@ -345,7 +347,6 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
         }
     }
 
-    var i = 0
     while (i < limit && commandPosition < commands.length) {
         when (commands[commandPosition]) {
             '>' -> valuePosition++
