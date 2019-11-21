@@ -330,7 +330,6 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
                 if (commands[commandPosition] == '[') count++
                 if (commands[commandPosition] == ']') count--
                 if (count == 0) break
-                i++
             }
         }
     }
