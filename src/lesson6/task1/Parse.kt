@@ -149,12 +149,12 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val set = setOf('1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '%', '-')
-    val value = jumps.split(' ').filter { it != "-" && it != "%" }
-    val res = mutableListOf<Int>()
-    if (jumps.toSet().union(set) != set + ' ' || value.isEmpty()) return -1
-    for (number in value) res.add(number.toInt())
-    return res.max()!!
+    return try {
+        val value = jumps.split(' ').filter { it != "-" && it != "%" }
+        value.map { it.toInt() }.max()!!
+    } catch (e: Exception) {
+        -1
+    }
 }
 
 /**
@@ -326,11 +326,11 @@ fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
         if (value[valuePosition] == 0) {
             count++
             while (commandPosition < commands.length) {
-                i++
                 commandPosition++
                 if (commands[commandPosition] == '[') count++
                 if (commands[commandPosition] == ']') count--
                 if (count == 0) break
+                i++
             }
         }
     }
