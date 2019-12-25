@@ -57,13 +57,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val map = mutableMapOf<String, Int>()
     for (word in substrings) {
         map[word] = 0
-        for (line in File(inputName).readLines()) {
+        for (line in File(inputName).readLines())
             for (index in line.indices)
                 if (word.length + index <= line.length &&
                     word.toLowerCase() == line.substring(index, index + word.length).toLowerCase()
                 )
                     map[word] = map[word]!! + 1
-        }
     }
     return map
 }
@@ -128,7 +127,6 @@ fun centerFile(inputName: String, outputName: String) {
         lines.add(line.trim())
         centre = maxOf(centre, line.trim().length)
     }
-    println("1".repeat(0))
     for (line in lines) {
         outputStream.write(" ".repeat((centre - line.length) / 2) + line)
         outputStream.newLine()
@@ -170,10 +168,10 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     var lineLength: Int
     var tabF: Int
     var tabS: Int
-    var lastWord: Int
+    var a: List<String>
     for (line in File(inputName).readLines()) {
         lineLength = line.trim().filter { it != ' ' }.length
-        val a = line.trim().split(' ').filter { it != " " && it != "" }
+        a = line.trim().split(' ').filter { it != " " && it != "" }
         lines.add(a to lineLength)
         maxLength = maxOf(maxLength, lineLength + a.size - 1)
     }
@@ -188,23 +186,17 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         } else {
             tabF = (maxLength - length) / (line.size - 1)
             tabS = (maxLength - length) % (line.size - 1)
-            lastWord = line.size - 1
-            for ((l, word) in line.withIndex()) {
-                if (lastWord == l) {
-                    outputStream.write(word)
-                    break
-                }
-                if (tabS > 0) outputStream.write(word + " ".repeat(tabF + 1))
-                else outputStream.write(word + " ".repeat(tabF))
+            for (i in 0..line.size - 2) {
+                if (tabS > 0) outputStream.write(line[i] + " ".repeat(tabF + 1))
+                else outputStream.write(line[i] + " ".repeat(tabF))
                 tabS -= 1
             }
+            outputStream.write(line[line.size - 1])
             outputStream.newLine()
         }
     }
     outputStream.close()
 }
-
-
 /**
  * Средняя
  *
