@@ -126,8 +126,9 @@ fun centerFile(inputName: String, outputName: String) {
     var centre = -1
     for (line in File(inputName).readLines()) {
         lines.add(line.trim())
-        centre = maxOf(centre, line.length)
+        centre = maxOf(centre, line.trim().length)
     }
+    println("1".repeat(0))
     for (line in lines) {
         outputStream.write(" ".repeat((centre - line.length) / 2) + line)
         outputStream.newLine()
