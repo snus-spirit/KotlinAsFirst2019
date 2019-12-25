@@ -126,10 +126,10 @@ fun centerFile(inputName: String, outputName: String) {
     var centre = -1
     for (line in File(inputName).readLines()) {
         lines.add(line.trim())
-        centre = maxOf(centre, line.length / 2)
+        centre = maxOf(centre, line.length)
     }
     for (line in lines) {
-        outputStream.write(" ".repeat(centre - line.length / 2) + line)
+        outputStream.write(" ".repeat((centre - line.length) / 2) + line)
         outputStream.newLine()
     }
     outputStream.close()
@@ -172,7 +172,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     var lastWord: Int
     for (line in File(inputName).readLines()) {
         lineLength = line.trim().filter { it != ' ' }.length
-        val a = line.trim().split(' ').filter { it != " " }
+        val a = line.trim().split(' ').filter { it != " " && it != "" }
         lines.add(a to lineLength)
         maxLength = maxOf(maxLength, lineLength + a.size - 1)
     }
@@ -512,7 +512,7 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
-fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-
+fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String): Nothing {
+    TODO()
 }
 
