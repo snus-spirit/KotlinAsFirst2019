@@ -82,19 +82,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  */
 fun sibilants(inputName: String, outputName: String) {
     val consonant = listOf('ж', 'ч', 'ш', 'щ')
+    val map = mapOf('ы' to "и", 'Ы' to "И", 'я' to "а", 'Я' to "А", 'ю' to "у", 'Ю' to "У")
     val outputStream = File(outputName).bufferedWriter()
     for (line in File(inputName).readLines()) {
         for ((index, symbol) in line.withIndex()) {
-            if (index != 0 && consonant.any { it == line[index - 1].toLowerCase() }
-            ) when (symbol) {
-                'ы' -> outputStream.write("и")
-                'Ы' -> outputStream.write("И")
-                'я' -> outputStream.write("а")
-                'Я' -> outputStream.write("А")
-                'ю' -> outputStream.write("у")
-                'Ю' -> outputStream.write("У")
-                else -> outputStream.write(symbol.toString())
-            }
+            if (index != 0 && consonant.any { it == line[index - 1].toLowerCase() })
+                outputStream.write(map[symbol] ?: symbol.toString())
             else outputStream.write(symbol.toString())
         }
         outputStream.newLine()
@@ -171,32 +164,54 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     var a: List<String>
     for (line in File(inputName).readLines()) {
         lineLength = line.trim().filter { it != ' ' }.length
-        a = line.trim().split(' ').filter { it != " " && it != "" }
+        a = line.trim().split(' ').filter { it != "" }
         lines.add(a to lineLength)
         maxLength = maxOf(maxLength, lineLength + a.size - 1)
     }
     for ((line, length) in lines) {
-        if (length == 0) outputStream.newLine()
-        else if (line.size == 1) {
-            outputStream.write(line.joinToString())
-            outputStream.newLine()
-        } else if (length == maxLength) {
-            outputStream.write(line.joinToString(separator = " "))
-            outputStream.newLine()
-        } else {
-            tabF = (maxLength - length) / (line.size - 1)
-            tabS = (maxLength - length) % (line.size - 1)
-            for (i in 0..line.size - 2) {
-                if (tabS > 0) outputStream.write(line[i] + " ".repeat(tabF + 1))
-                else outputStream.write(line[i] + " ".repeat(tabF))
-                tabS -= 1
+        when (length) {
+            0 -> outputStream.newLine()
+            line[0].length -> {
+                outputStream.write(line.joinToString())
+                outputStream.newLine()
             }
-            outputStream.write(line[line.size - 1])
-            outputStream.newLine()
+            maxLength -> {
+                outputStream.write(line.joinToString(separator = " "))
+                outputStream.newLine()
+            }
+            else -> {
+                tabF = (maxLength - length) / (line.size - 1)
+                tabS = (maxLength - length) % (line.size - 1)
+                for (i in 0..line.size - 2) {
+                    if (tabS > 0) outputStream.write(line[i] + " ".repeat(tabF + 1))
+                    else outputStream.write(line[i] + " ".repeat(tabF))
+                    tabS -= 1
+                }
+                outputStream.write(line[line.size - 1])
+                outputStream.newLine()
+            }
         }
     }
     outputStream.close()
 }
+//if (length == 0) outputStream.newLine()
+//        else if (line.size == 1) {
+//            outputStream.write(line.joinToString())
+//            outputStream.newLine()
+//        } else if (length == maxLength) {
+//            outputStream.write(line.joinToString(separator = " "))
+//            outputStream.newLine()
+//        } else {
+//            tabF = (maxLength - length) / (line.size - 1)
+//            tabS = (maxLength - length) % (line.size - 1)
+//            for (i in 0..line.size - 2) {
+//                if (tabS > 0) outputStream.write(line[i] + " ".repeat(tabF + 1))
+//                else outputStream.write(line[i] + " ".repeat(tabF))
+//                tabS -= 1
+//            }
+//            outputStream.write(line[line.size - 1])
+//            outputStream.newLine()
+//        }
 /**
  * Средняя
  *
