@@ -194,24 +194,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     }
     outputStream.close()
 }
-//if (length == 0) outputStream.newLine()
-//        else if (line.size == 1) {
-//            outputStream.write(line.joinToString())
-//            outputStream.newLine()
-//        } else if (length == maxLength) {
-//            outputStream.write(line.joinToString(separator = " "))
-//            outputStream.newLine()
-//        } else {
-//            tabF = (maxLength - length) / (line.size - 1)
-//            tabS = (maxLength - length) % (line.size - 1)
-//            for (i in 0..line.size - 2) {
-//                if (tabS > 0) outputStream.write(line[i] + " ".repeat(tabF + 1))
-//                else outputStream.write(line[i] + " ".repeat(tabF))
-//                tabS -= 1
-//            }
-//            outputStream.write(line[line.size - 1])
-//            outputStream.newLine()
-//        }
+
 /**
  * Средняя
  *
